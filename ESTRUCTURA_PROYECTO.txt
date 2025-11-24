@@ -1,0 +1,54 @@
+Listado de rutas de carpetas para el volumen DATOS
+El número de serie del volumen es 00000011 18F0:60C0
+D:\ACCESOS\DESKTOP\DESARROLLO\INTEGRADORMIO\EXAMENMERCADO\SRC
++---main
+|   +---java
+|   |   \---org
+|   |       \---example
+|   |           |   MutantDetectorApplication.java
+|   |           |   
+|   |           +---config
+|   |           |       SwaggerConfig.java
+|   |           |       
+|   |           +---controller
+|   |           |       MutantController.java
+|   |           |       
+|   |           +---dto
+|   |           |       DnaRequest.java
+|   |           |       ErrorResponse.java
+|   |           |       StatsResponse.java
+|   |           |       
+|   |           +---entity
+|   |           |       DnaRecord.java
+|   |           |       
+|   |           +---exception
+|   |           |       DnaHashCalculationException.java
+|   |           |       GlobalExceptionHandler.java
+|   |           |       
+|   |           +---repository
+|   |           |       DnaRecordRepository.java
+|   |           |       
+|   |           +---service
+|   |           |       MutantDetector.java
+|   |           |       MutantService.java
+|   |           |       StatsService.java
+|   |           |       
+|   |           \---validation
+|   |                   ValidDnaSequence.java
+|   |                   ValidDnaSequenceValidator.java
+|   |                   
+|   \---resources
+|           application.properties
+|           
+\---test
+    \---java
+        \---org
+            \---example
+                +---controller
+                |       MutantControllerTest.java
+                |       
+                \---service
+                        MutantDetectorTest.java
+                        MutantServiceTest.java
+                        StatsServiceTest.java
+                        
