@@ -2,8 +2,10 @@ package org.example.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
  * JPA Entity representing a DNA verification record.
@@ -18,7 +20,9 @@ import lombok.NoArgsConstructor;
 @Table(name = "dna_records", indexes = {
     @Index(name = "idx_dna_hash", columnList = "dna_hash", unique = true)
 })
-@Data
+@Getter
+@Setter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class DnaRecord {
