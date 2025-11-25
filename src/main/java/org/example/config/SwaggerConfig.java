@@ -55,7 +55,7 @@ public class SwaggerConfig {
                                 .url("http://localhost:8080")
                                 .description("Local Development Server"),
                         new Server()
-                                .url("https://your-app.onrender.com")
+                                .url("https://integradorv1.onrender.com")
                                 .description("Production Server (Render)")
                 ));
     }
