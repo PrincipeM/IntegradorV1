@@ -2,24 +2,29 @@
 # ETAPA 1: BUILD (Compilación)
 # ========================================
 # Imagen base ligera de Alpine Linux (~5MB) para compilar el código
-# Se usa "as build" para nombrar esta etapa y referenciarla después
-FROM alpine:latest as build
+# Se usa "AS build" para nombrar esta etapa y referenciarla después
+FROM alpine:latest AS build
 
 # Actualizar el índice de paquetes de Alpine
 RUN apk update
 
-# Instalar OpenJDK 17 necesario para compilar código Java/Spring Boot
+# Instalar OpenJDK 17 y dos2unix (para convertir fin de línea)
 # Alpine usa 'apk' como gestor de paquetes (equivalente a apt/yum)
-RUN apk add openjdk17
+RUN apk add openjdk17 dos2unix
 
-# Copiar TODO el código fuente del proyecto al contenedor
-# Primer '.' = origen (directorio actual del host)
-# Segundo '.' = destino (directorio de trabajo del contenedor)
-COPY . .
+# Copiar archivos de Gradle primero (para aprovechar caché de Docker)
+COPY gradlew .
+COPY gradle gradle
+COPY build.gradle .
+COPY settings.gradle .
 
-# Dar permisos de ejecución al script gradlew (Gradle Wrapper)
-# Necesario porque los permisos pueden perderse al copiar archivos
+# Convertir gradlew a formato Unix y dar permisos de ejecución
+# Necesario porque Windows usa CRLF y Linux usa LF
+RUN dos2unix ./gradlew || sed -i 's/\r$//' ./gradlew
 RUN chmod +x ./gradlew
+
+# Copiar el código fuente
+COPY src src
 
 # Ejecutar Gradle para compilar y generar el JAR ejecutable
 # bootJar: tarea de Spring Boot que genera un "fat JAR" con todas las dependencias
@@ -32,7 +37,8 @@ RUN ./gradlew bootJar --no-daemon
 # ========================================
 # Imagen base con SOLO el runtime de Java (sin herramientas de compilación)
 # Esto reduce el tamaño de la imagen final de ~500MB a ~200MB
-FROM openjdk:17-alpine
+# Usamos Eclipse Temurin (reemplazo oficial de OpenJDK)
+FROM eclipse-temurin:17-jre-alpine
 
 # Documentar que la aplicación escucha en el puerto 8080
 # IMPORTANTE: esto NO abre el puerto, solo es documentación
